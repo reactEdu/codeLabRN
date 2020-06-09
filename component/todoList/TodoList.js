@@ -33,7 +33,10 @@ class Data {
 	};
 
 	removeItem = id => {
-		this.data.list = _.reject( this.data.list, item => item.key === id );
+		// this.data.list = _.reject( this.data.list, item => item.key === id );
+		this.data.list = this.data.list.filter(item => item.key !== id);
+		const json = JSON.stringify( this.data.list );
+		AsyncStorage.setItem( 'todoList', json );
 	};
 
 	render() {
@@ -41,14 +44,15 @@ class Data {
 			<View style={ styles.container }>
 				<SafeAreaView>
 					<ScrollView>
-						<FlatList data={ this.data.list }
-								  extraData={ this.data.list.length }
-								  renderItem={ ({item}) => (
-									  <Button title={item.text}
-											  onPress={() => this.removeItem( item.key )}/>
-								  )}/>
+						<FlatList 
+							data={ this.data.list }
+							extraData={ this.data.list.length }
+							renderItem={ ({item}) => (
+								<Button title={item.text}	onPress={() => this.removeItem( item.key )}/>
+							)}
+						/>
 						{this.data.list.length === 0 &&
-						<Text style={{textAlign: 'center'}}>할일이 없다</Text>
+							<Text style={{textAlign: 'center'}}>할일이 없다</Text>
 						}
 					</ScrollView>
 					<View style={ styles.row }>

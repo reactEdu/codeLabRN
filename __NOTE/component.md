@@ -70,38 +70,34 @@
 ### FlatList
 - ui > li 역할
 - 데이터가 담긴 배열을 data 속성에 넣고 renderItem에 반복될 컴포넌트를 리턴해주면 리스트를 생성
+- data 안에는 반드시 key가 들어가 있어야 함
+- data가 변해도 리렌더링을 하지 않으므로 변경될 기준이 되는 데이터인 extraData를 따로 설정해줘야 한다.
 
 ```javascript
 const DATA = [
   {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
+    key: uuid(),
+    text: 'First Item',
   },
   {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
+    key: uuid(),
+    text: 'Second Item',
   },
   {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
+    key: uuid(),
+    text: 'Third Item',
   },
 ];
-
-function Item({ title }) {
-  return (
-    <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
-    </View>
-  );
-}
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={DATA}
-        renderItem={({ item }) => <Item title={item.title} />}
-        keyExtractor={item => item.id}
+      <FlatList 
+        data={ DATA }
+        extraData={ DATA.length } // 갯수가 변하면 리렌더링
+        renderItem={ ({item}) => (
+          <Button title={item.text}	onPress={() => this.removeItem( item.key )}/>
+        )}
       />
     </SafeAreaView>
   );

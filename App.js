@@ -9,8 +9,8 @@ import TodoList from './component/todoList/TodoList';
 class App extends Component {
   render() {
     return (
-      <CocktailRecipeWithMobx />
-      // <TodoList />
+      // <CocktailRecipeWithMobx />
+      <TodoList />
     );
   }
 }

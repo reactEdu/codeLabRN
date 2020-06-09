@@ -3,8 +3,19 @@
 ## 자주쓰는 모듈
 
 ### lodash
-- _.find( data, element => element.key === key )
-- 
+- _.find( data, item => item.key === key )
+	- 조건에 맞는 첫번째 데이터를 반환
+
+```javascript
+const item = _.find( data, item => item.key === this.store.value );
+```
+- _.reject( data, item => item.key === id ); 
+	- 조건에 맞는 데이터만 제거해서 다시 반환 -> Array.filter랑 반대
+
+```javascript
+const list = _.reject(list, item => item.key === id);
+const list = list.filter(item => item.key !== id);
+```
 
 ### react-navigation
 -  버젼 5 기본적인 세팅 및 소개

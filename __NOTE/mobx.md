@@ -13,11 +13,49 @@
 {
   "compilerOptions": {
       "experimentalDecorators": true,
-      "allowJs": true
   }
 }
 ```
 
 ## decorator
--	@observable : 변경되면 화면을 렌더링 하는 statr 역할의 값
+-	@observable : 변경되면 화면을 렌더링 하는 state 역할의 값,
 -	@computed : 캐싱해서 보유하는 값
+- @observer : observable값을 사용 가능한 클래스
+- observer는 observable값을 감시하다가 변하면 재렌더링을 하기 때문에 불변성을 지킬 필요가 없다/
+
+```javascript
+class Data {
+	@observable text = '';
+	@observable list = [];
+}
+
+@observer class App extends React.Component {
+	data = new Data(); // 클래스 내부에서 Data속의 text와 list를 사용 가능
+
+	addItem = () => {
+		if( this.data.text === '' ) return false;
+		this.data.list.push( {
+			key: uuid(),
+			text: this.data.text,	
+		} );
+		const json = JSON.stringify( this.data.list );
+		AsyncStorage.setItem( 'todoList', json );
+		this.data.text = '';
+	};
+}
+```
+
+```javascript
+```
+
+```javascript
+```
+
+```javascript
+```
+
+```javascript
+```
+
+
+
