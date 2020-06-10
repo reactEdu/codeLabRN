@@ -17,6 +17,10 @@ const list = _.reject(list, item => item.key === id);
 const list = list.filter(item => item.key !== id);
 ```
 
+- _.isArray(배열)
+	- 배열 여부를 boolean으로 반환
+
+
 ### react-navigation
 -  버젼 5 기본적인 세팅 및 소개
 	- https://dev-yakuza.github.io/ko/react-native/react-navigation-v5/
