@@ -21,6 +21,11 @@
 ![파일수정1](./img/FB04_AppDelegate.m파일수정1.png)
 ![파일수정2](./img/FB04_AppDelegate.m파일수정2.png)
 
+- 앱 실행해서 설치 확인
+  - import firebase from '@react-native-firebase/app';
+  - Xcode에서 ▶ 눌러서 시뮬레이터로 실행해보기
+![앱실행후설치확인](./img/FB05_앱실행후설치확인.png)
+
 ## 참고 동영상
 - 파이어베이스 가입 및 연동
   - https://youtu.be/zYojRZ9Wn50
