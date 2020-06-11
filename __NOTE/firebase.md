@@ -26,6 +26,58 @@
   - Xcode에서 ▶ 눌러서 시뮬레이터로 실행해보기
 ![앱실행후설치확인](./img/FB05_앱실행후설치확인.png)
 
+- 익명 로그인
+  - https://rnfirebase.io/auth/usage
+![FB06_익명로그인](./img/FB06_익명로그인.png)
+
+```javascript
+import auth from '@react-native-firebase/auth';
+
+class RnFirebase extends Component {
+  componentDidMount() {
+    auth().signInAnonymously()
+    .then( authInfo => {
+      console.log('authInfo', authInfo);
+    })
+    .catch(error => {
+      if (error.code === 'auth/operation-not-allowed') {
+        console.log('Enable anonymous in your firebase console.');
+      }
+      
+      console.error(error);
+    });
+  }
+}
+```
+
+- 익명 로그인
+  - https://rnfirebase.io/auth/usage
+  - firebase console -> Authentication -> 이메일/비밀번호
+  
+```javascript
+import auth from '@react-native-firebase/auth';
+
+class RnFirebase extends Component {
+  componentDidMount() {
+    // 이메일로 가입시키고 로그인
+    auth()
+    .createUserWithEmailAndPassword('<test1></test1>@gmail.com', 'SuperSecretPassword!')
+    .then( authInfo => {
+      console.log('authInfo', authInfo);
+    })
+    .catch(error => {
+      if (error.code === 'auth/email-already-in-use') {
+        console.log('That email address is already in use!');
+      }
+      if (error.code === 'auth/invalid-email') {
+        console.log('That email address is invalid!');
+      }
+      console.error(error);
+    });
+  }
+}  
+```
+
 ## 참고 동영상
 - 파이어베이스 가입 및 연동
   - https://youtu.be/zYojRZ9Wn50
