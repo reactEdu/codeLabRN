@@ -1,4 +1,7 @@
 ## REACT NATIVE FIREBASE
+- react-native-firebase의 모듈 설치시 항상 ios 폴더가서 ```pod update``` 실행
+
+### 설치 및 xcode 연동
 - npm install --save @react-native-firebase/app
 - cd ios & pod install
 - open codeLabRN.xcworkspace
@@ -26,6 +29,8 @@
   - Xcode에서 ▶ 눌러서 시뮬레이터로 실행해보기
 ![앱실행후설치확인](./img/FB05_앱실행후설치확인.png)
 
+
+### 로그인
 - 익명 로그인
   - https://rnfirebase.io/auth/usage
 ![FB06_익명로그인](./img/FB06_익명로그인.png)
@@ -50,10 +55,10 @@ class RnFirebase extends Component {
 }
 ```
 
-- 익명 로그인
+- 이메일 로그인
   - https://rnfirebase.io/auth/usage
   - firebase console -> Authentication -> 이메일/비밀번호
-  
+
 ```javascript
 import auth from '@react-native-firebase/auth';
 
@@ -76,6 +81,57 @@ class RnFirebase extends Component {
     });
   }
 }  
+```
+
+- 콘솔 Authentication 에서 사용자 확인
+  - Users탭에서 비밀번호 재설정 가능(이메일로 변경 링크보냄)
+  - Templates탭에서 비밀번호 재설정 이메일 양식도 수정 가능
+
+![콘솔에서사용자확인](./img/FB07_콘솔에서사용자확인.png)
+
+### 데이터베이스
+- npm i @react-native-firebase/database
+- https://rnfirebase.io/database/usage
+
+#### insert
+```javascript
+import database from '@react-native-firebase/database';
+
+class RnFirebase extends Component {
+  componentDidMount() {
+    database()
+    .ref('/users/1') // insert할 객체(Document)
+    .set({ // insert할 데이터
+      userId: 1,
+      name: 'david',
+      email: "david@email.com"
+    })
+    .then(() => console.log('Data set.'));
+  }
+}
+```
+
+- 결과
+![데이터베이스생성](./img/FB08_데이터베이스생성.png)
+
+#### select
+```javascript
+import database from '@react-native-firebase/database';
+
+class RnFirebase extends Component {
+  componentDidMount() {
+    // 데이터 베이스 생성
+    database()
+    .ref('users') // select할 객체
+    .once('value') // 실시간이 아닌 한번만 수행
+    .then(snapshot => {
+      console.log('User data: ', snapshot.val()); // 데이터 값만 가져옴
+    });
+  }
+}
+```
+
+```javascript
 ```
 
 ## 참고 동영상

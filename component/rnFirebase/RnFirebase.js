@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, } from 'react-native';
 import firebase from '@react-native-firebase/app';
 import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 
 class RnFirebase extends Component {
   componentDidMount() {
@@ -19,21 +20,41 @@ class RnFirebase extends Component {
     // });
 
     // 이메일로 가입시키고 로그인
-    auth()
-    .createUserWithEmailAndPassword('<test1></test1>@gmail.com', 'SuperSecretPassword!')
-    .then( authInfo => {
-      console.log('authInfo', authInfo);
-    })
-    .catch(error => {
-      if (error.code === 'auth/email-already-in-use') {
-        console.log('That email address is already in use!');
-      }
-      if (error.code === 'auth/invalid-email') {
-        console.log('That email address is invalid!');
-      }
-      console.error(error);
+    // auth()
+    // .createUserWithEmailAndPassword('<test1></test1>@gmail.com', 'SuperSecretPassword!')
+    // .then( authInfo => {
+    //   console.log('authInfo', authInfo);
+    // })
+    // .catch(error => {
+    //   if (error.code === 'auth/email-already-in-use') {
+    //     console.log('That email address is already in use!');
+    //   }
+    //   if (error.code === 'auth/invalid-email') {
+    //     console.log('That email address is invalid!');
+    //   }
+    //   console.error(error);
+    // });
+
+    database()
+    // .ref('/users/2')
+    // .set({
+    //   userId: 2,
+    //   name: 'rick',
+    //   email: "rickk@email.com"
+    // })
+    // .then(() => console.log('Data set.'));
+    .ref('users')
+    .once('value')
+    .then(snapshot => {
+      console.log('User data: ', snapshot.val());
+      /*
+      User data: [null, {"email": "david@email.com", "name": "david", "userId": 1}, 
+        {"email": "rickk@email.com", "name": "rick", "userId": 2}, 
+        {"email": "felixk@email.com", "name": "felix", "userId": 3}]
+      */
     });
   }
+
   render() {
     return (
       <View>
