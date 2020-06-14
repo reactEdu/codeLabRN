@@ -1,9 +1,12 @@
 [메인으로](../README.md)
 
 ## React Native에서 CSS 
+- CSS와 유사한 형태의 표현식 사용(CSS Engine 아님)
+- 전처리기(Sass) 사용 불가
 
 ### StyleSheet 컴포넌트
 - 오브젝트 형태로 스타일을 주기 위함
+- 퍼포먼스를 위해 통해 사용할 것을 권장
 
 ```javascript
 export default function App() {
@@ -17,6 +20,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 })
+```
+
+- 배열로 여러개 스타일링 적용 가능(여러번 사용하면 메모리 이슈있음)
+- 연산자로 조건식 스타일링 적용 가능
+
+```javascript
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text style={[styles.title, this.props.isActive && styles.activeTitle]}>Array Styling</Text>
+    </View>
+  )
+}
 ```
 
 ### Platform 컴포넌트
@@ -43,5 +59,50 @@ const styles = StyleSheet.create({
   }
 });
 ```
+
+### 매모리 최적화 #1
+- 반복해서 사용하는 스타일링은 default로 빼놓고 사용
+
+```javascript
+const styles = StyleSheet.create({
+  list: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: 'green',
+  },
+  selectedList: {
+    backgroundColor: 'red',
+  },
+})
+
+export default styles;
+```
+
+### 매모리 최적화 #2 : Flatten
+- 두개의 스타일링을 하나로 합쳐놓고 사용 : 배열보다 권장됨
+
+```javascript
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text style={[styles.list, styles.selectedList]}>A</Text>
+      <Text style={StyleSheet.flatten([styles.list, styles.selectedList])}>B</Text>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  list: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: 'green',
+  },
+  selectedList: {
+    backgroundColor: 'red',
+  },
+})
+// { flex: 1, alignItems: 'center' backgroundColor: 'red',}
+```
+
 ### RN에만 존재하는 CSS
 - marginVertical:  margin: x 0;
