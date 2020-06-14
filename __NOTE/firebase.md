@@ -93,7 +93,9 @@ class RnFirebase extends Component {
 - npm i @react-native-firebase/database
 - https://rnfirebase.io/database/usage
 
-#### insert
+#### insert 
+- database().ref().set({})
+
 ```javascript
 import database from '@react-native-firebase/database';
 
@@ -115,6 +117,8 @@ class RnFirebase extends Component {
 ![데이터베이스생성](./img/FB08_데이터베이스생성.png)
 
 #### select
+- database().ref().once()
+
 ```javascript
 import database from '@react-native-firebase/database';
 
@@ -129,6 +133,23 @@ class RnFirebase extends Component {
     });
   }
 }
+```
+
+####  select : Realtime Database
+- database().ref().on()
+
+```javascript
+    database()
+    .ref('users')
+    .on('value', snapshot => {
+      console.log('User data: ', snapshot.val());
+    });
+```
+
+```javascript
+```
+
+```javascript
 ```
 
 ```javascript

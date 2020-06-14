@@ -35,7 +35,7 @@ class RnFirebase extends Component {
     //   console.error(error);
     // });
 
-    database()
+    // database()
     // .ref('/users/2')
     // .set({
     //   userId: 2,
@@ -43,15 +43,24 @@ class RnFirebase extends Component {
     //   email: "rickk@email.com"
     // })
     // .then(() => console.log('Data set.'));
+
+    /*
+    User data: [null, {"email": "david@email.com", "name": "david", "userId": 1}, 
+      {"email": "rickk@email.com", "name": "rick", "userId": 2}, 
+      {"email": "felixk@email.com", "name": "felix", "userId": 3}]
+    */
+    // database()
+    // .ref('users')
+    // .once('value')
+    // .then(snapshot => {
+    //   console.log('User data: ', snapshot.val());
+    // });
+
+    // Realtime Database
+    database()
     .ref('users')
-    .once('value')
-    .then(snapshot => {
+    .on('value', snapshot => {
       console.log('User data: ', snapshot.val());
-      /*
-      User data: [null, {"email": "david@email.com", "name": "david", "userId": 1}, 
-        {"email": "rickk@email.com", "name": "rick", "userId": 2}, 
-        {"email": "felixk@email.com", "name": "felix", "userId": 3}]
-      */
     });
   }
 
