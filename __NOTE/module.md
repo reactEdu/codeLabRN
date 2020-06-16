@@ -21,6 +21,7 @@ const list = list.filter(item => item.key !== id);
 	- 배열 여부를 boolean으로 반환
 
 
+
 ### react-navigation
 -  버젼 5 기본적인 세팅 및 소개
 	- https://dev-yakuza.github.io/ko/react-native/react-navigation-v5/
@@ -134,7 +135,82 @@ uuid.v4 = v4;
 module.exports = uuid;
 ```
 
+
+### react-native-cheerio
+- 크롤링 라이브러리 cheerio를 RN버전으로 포팅
+- 문법이 jquery와 유사(데이터 반복처리할때 each() 사용)
+- axios로 파라미터 보낼때 encodeURIComponent() 처리 해주기
+- 앱에서 axios를 쓰기 때문에 크로스오리진 이슈 걱정 안해도 됨
+
 ```javascript
+import cheerio from 'react-native-cheerio';
+
+class Data {
+	@observable list = [];
+}
+
+function encodeParams(obj) {
+	let params = [];
+	for (let p in obj) {
+		params.push(p + '=' + encodeURIComponent(obj[p]));
+	}
+	return params.join('&');
+}
+
+@observer
+class SongFinder extends React.Component {
+	data = new Data();
+
+	componentDidMount() {
+		const url = 'https://www.ziller.co.kr/SingingroomSearchList.do';
+		const params = {
+			currpage: 1,
+			searchRange: 'play',
+			limit: 10,
+			noraeSelect: 'artist_name',
+			searchKeyword: '레드벨벳',
+			x: 0,
+			y: 0,
+		};
+		axios.post( url, encodeParams( params ) )
+			.then( response => {
+				const $ = cheerio.load( response.data );
+				let songNumbers = $( '.play_list_num01' ); // 곡 번호
+				let data = this.data; // mobx 스토어
+
+				songNumbers.each( function( i, elem ) {
+					data.list.push( {
+						key: $( this ).text(),
+						number: $( this ).text(),
+						title: $( this ).parent().find( '.play_txt_01' ).text() // 곡명
+					} );
+				} );
+				console.log( this.data.list );
+			} )
+			.catch( error => {
+				console.log( error );
+			} );
+	}
+
+	render() {
+		return (
+			<View style={styles.container}>
+				<View>
+					<TextInput/>
+				</View>
+
+				<ScrollView>
+					<FlatList data={ this.data.list }
+							  extraData={ this.data.list.length }
+							  renderItem={ ( { item } ) => {
+								return <Button title={ `${item.number} ${item.title}` } onPress={ () => {} }/>
+							  } }
+					/>
+				</ScrollView>
+			</View>
+		);
+	}
+}
 ```
 
 ```javascript
